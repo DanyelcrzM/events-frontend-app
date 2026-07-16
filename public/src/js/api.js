@@ -1,9 +1,10 @@
-//const API_URL = 'http://localhost:8080';
-const API_URL = 'https://backend-events-api-943215766238.us-central1.run.app';
+const API_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:8080' 
+  : 'https://backend-events-api-943215766238.us-central1.run.app';
 
 
-const ApiService = {
-    async fetchEvents() {
+const EventService = {
+    async getEvents() {
         const response = await fetch(`${API_URL}/events`);
         if (!response.ok) throw new Error('Error al obtener los eventos');
         return await response.json();
@@ -17,7 +18,7 @@ const ApiService = {
         });
         if (!response.ok) {
             const errData = await response.json();
-            throw new Error(errData.error || 'Error al guardar el evento');
+            throw new Error('Error al guardar el evento');
         }
         return await response.json();
     },

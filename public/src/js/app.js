@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadEvents() {
         showLoading(true);
         try {
-            const events = await ApiService.fetchEvents();
+            const events = await EventService.getEvents();
             const tbody = document.getElementById('eventsTableBody');
             tbody.innerHTML = '';
 
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnRefresh.addEventListener('click', loadEvents);
-
 
     loadEvents();
 });
