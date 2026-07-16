@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Eventos Operativos</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Prueba Técnica: Registro de Eventos Operativos</h1>
+
+    <div id="loading" class="loading">Procesando solicitud...</div>
+    <div id="error" class="error"></div>
+
+    <div class="section">
+        <h2>[Formulario nuevo evento]</h2>
+        <form id="eventForm">
+            <label>Event ID:</label>
+            <input type="text" id="eventId" required><br>
+
+            <label>Account ID:</label>
+            <input type="text" id="accountId" required><br>
+
+            <label>Type:</label>
+            <select id="type">
+                <option value="DEBIT">DEBIT</option>
+                <option value="CREDIT">CREDIT</option>
+            </select><br>
+
+            <label>Amount:</label>
+            <input type="number" id="amount" min="0.01" step="0.01" required><br>
+
+            <label>Channel:</label>
+            <select id="channel">
+                <option value="WEB">WEB</option>
+                <option value="APP">APP</option>
+                <option value="BRANCH">BRANCH</option>
+            </select><br>
+
+            <label>Event Time:</label>
+            <input type="datetime-local" id="eventTime"><br>
+
+            <button type="submit">[Guardar evento]</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>[Resumen por cuenta]</h2>
+        <label>Account ID:</label>
+        <input type="text" id="searchAccountId" placeholder="Ej: ACC-001">
+        <button id="btnSummary">[Consultar]</button>
+
+        <div id="summaryResult" class="summary-box" style="display:none;">
+            <p><strong>Total credits:</strong> <span id="resCredits">0</span></p>
+            <p><strong>Total debits:</strong> <span id="resDebits">0</span></p>
+            <p><strong>Balance:</strong> <span id="resBalance">0</span></p>
+            <p><strong>Events count:</strong> <span id="resCount">0</span></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>[Eventos registrados]</h2>
+        <button id="btnRefresh">Actualizar Lista Completa</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event ID</th>
+                    <th>Account ID</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Channel</th>
+                    <th>Event Time</th>
+                </tr>
+            </thead>
+            <tbody id="eventsTableBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="src/js/api.js"></script>
+<script src="src/js/app.js"></script>
+</body>
+</html>
