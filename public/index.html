@@ -4,84 +4,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Eventos</title>
+    <title>Control Financiero</title>
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>Gestión de Eventos</h1>
-
-        <div id="loading" class="loading">Procesando...</div>
-        <div id="error" class="error"></div>
-
-        <div class="section">
-            <h2>Nuevo evento</h2>
-            <form id="eventForm">
-                <label>Event ID:</label>
-                <input type="text" id="eventId" required><br>
-
-                <label>Account ID:</label>
-                <input type="text" id="accountId" required><br>
-
-                <label>Type:</label>
-                <select id="type">
-                    <option value="DEBIT">DEBIT</option>
-                    <option value="CREDIT">CREDIT</option>
-                </select><br>
-
-                <label>Amount:</label>
-                <input type="number" id="amount" min="0.01" step="0.01" required><br>
-
-                <label>Channel:</label>
-                <select id="channel">
-                    <option value="WEB">WEB</option>
-                    <option value="APP">APP</option>
-                    <option value="BRANCH">BRANCH</option>
-                </select><br>
-
-                <label>Event Time:</label>
-                <input type="datetime-local" id="eventTime"><br>
-
-                <button type="submit">Guardar</button>
-            </form>
+    <header class="app-header">
+        <div class="header-brand">
+            <h1>Sistema de Eventos</h1>
         </div>
-
-        <div class="section">
-            <h2>Eventos registrados</h2>
-            <button id="btnRefresh">Actualizar lista</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Event ID</th>
-                        <th>Account ID</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Channel</th>
-                        <th>Event Time</th>
-                    </tr>
-                </thead>
-                <tbody id="eventsTableBody">
-                </tbody>
-            </table>
+        <div class="app-status">
+            <div id="loading" class="status-indicator processing" style="display: none;">Procesando operación...</div>
+            <div id="error" class="status-indicator alert-danger" style="display: none;"></div>
         </div>
+    </header>
 
-        <div class="section">
-            <h2>Resumen por cuenta</h2>
-            <label>Account ID:</label>
-            <input type="text" id="searchAccountId" placeholder="Ej: ACC-001">
-            <button id="btnSummary">Consultar</button>
+    <main class="dashboard-layout">
+        
+        <aside class="dashboard-sidebar">
+            
+            <section class="card-panel">
+                <header class="panel-header">
+                    <h2>Registrar Operación</h2>
+                </header>
+                
+                <form id="eventForm" class="interactive-form">
+                    <div class="form-group">
+                        <label for="eventId">Identificador de Evento</label>
+                        <input type="text" id="eventId" required placeholder="Ej: EVT-9921">
+                    </div>
 
-            <div id="summaryResult" class="summary-box" style="display:none;">
-                <p><strong>Total credits:</strong> <span id="resCredits">0</span></p>
-                <p><strong>Total debits:</strong> <span id="resDebits">0</span></p>
-                <p><strong>Balance:</strong> <span id="resBalance">0</span></p>
-                <p><strong>Events count:</strong> <span id="resCount">0</span></p>
+                    <div class="form-group">
+                        <label for="accountId">Cuenta Destino</label>
+                        <input type="text" id="accountId" required placeholder="Ej: ACC-104">
+                    </div>
+
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="type">Tipo</label>
+                            <select id="type">
+                                <option value="DEBIT">DEBIT</option>
+                                <option value="CREDIT">CREDIT</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount">Monto ($)</label>
+                            <input type="number" id="amount" min="0.01" step="0.01" required placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="channel">Canal de Origen</label>
+                        <select id="channel">
+                            <option value="WEB">Plataforma Web</option>
+                            <option value="APP">Aplicación Móvil</option>
+                            <option value="BRANCH">Sucursal Física</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventTime">Fecha y Hora</label>
+                        <input type="datetime-local" id="eventTime">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Validar y Guardar</button>
+                </form>
+            </section>
+
+            <section class="card-panel summary-search-panel">
+                <header class="panel-header">
+                    <h2>Métricas por Cuenta</h2>
+                </header>
+                
+                <div class="search-box-group">
+                    <input type="text" id="searchAccountId" placeholder="Buscar Cuenta (Ej: ACC-001)">
+                    <button id="btnSummary" class="btn btn-secondary">Analizar</button>
+                </div>
+
+                <div id="summaryResult" class="metrics-grid" style="display:none;">
+                    <div class="metric-card credit">
+                        <span class="metric-label">Créditos Totales</span>
+                        <span id="resCredits" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-card debit">
+                        <span class="metric-label">Débitos Totales</span>
+                        <span id="resDebits" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-card balance">
+                        <span class="metric-label">Balance Neto</span>
+                        <span id="resBalance" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-card total-events">
+                        <span class="metric-label">Transacciones</span>
+                        <span id="resCount" class="metric-value">0</span>
+                    </div>
+                </div>
+            </section>
+
+        </aside>
+
+        <section class="dashboard-content">
+            <div class="card-panel table-panel">
+                <header class="panel-header table-actions">
+                    <h2>Historial de Transacciones</h2>
+                    <button id="btnRefresh" class="btn btn-outline">Sincronizar</button>
+                </header>
+                
+                <div class="table-responsive">
+                    <table class="custom-data-table">
+                        <thead>
+                            <tr>
+                                <th>Ref. Evento</th>
+                                <th>Cuenta</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Canal</th>
+                                <th>Registro</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </section>
 
-    </div>
+    </main>
 
     <script src="src/js/api.js"></script>
     <script src="src/js/app.js"></script>
