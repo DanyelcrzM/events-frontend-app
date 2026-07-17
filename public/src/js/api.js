@@ -1,4 +1,8 @@
-const API_URL = window.location.hostname === 'localhost' 
+const isLocal = window.location.protocol === 'file:' || 
+                window.location.hostname.includes('localhost') || 
+                window.location.hostname.includes('127.0.0.1');
+
+const API_BASE = isLocal 
   ? 'http://localhost:8080' 
   : 'https://backend-events-api-943215766238.us-central1.run.app';
 
