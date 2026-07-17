@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            await ApiService.createEvent(payload);
+            await EventService.createEvent(payload);
             eventForm.reset();
             await loadEvents();
         } catch (err) {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showLoading(true);
         try {
-            const data = await ApiService.getSummary(accId);
+            const data = await EventService.getSummary(accId);
             document.getElementById('resCredits').innerText = data.totalCredits;
             document.getElementById('resDebits').innerText = data.totalDebits;
             document.getElementById('resBalance').innerText = data.balance;
